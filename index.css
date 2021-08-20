@@ -51,17 +51,29 @@ body {
   justify-content: space-between;
 }
 
-.informationContainerLeftArrow {
+.prev, .next {
+  cursor: pointer;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
 }
 
 .informationImage {
 }
 
-.informationData {
-  width: 400px;
-  height: 400px;
-  border: 2px solid black;
+#peopleInfo {
+  display: flex;
+  justify-content: space-around;
 }
 
-.informationContainerRightArrow {
+.peopleData {
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid black;
+  margin: 15px;
+  padding: 50px;
+  display: none;
 }
+
+

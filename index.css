@@ -1,0 +1,67 @@
+body {
+}
+
+.topNav {
+  background-color: black;
+  color: whitesmoke;
+}
+.topNav a {
+  padding: 15px;
+  font-size: 17px;
+}
+
+.pageTitleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.pageTitle {
+  color: blue;
+}
+.pageIntroContainer {
+  display: flex;
+  justify-content: space-around;
+  border: 2px solid black;
+}
+.pageIntro {
+  height: 100%;
+  width: 50vw;
+  
+}
+
+.pageIntro2 {
+  color: red;
+}
+
+.informationTab {
+  display: flex;
+  justify-content: center;
+}
+
+.informationTab a {
+  padding: 15px;
+  margin: 15px;
+  background-color: black;
+  color: white;
+  justify-content: center;
+}
+
+.informationContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.informationContainerLeftArrow {
+}
+
+.informationImage {
+}
+
+.informationData {
+  width: 400px;
+  height: 400px;
+  border: 2px solid black;
+}
+
+.informationContainerRightArrow {
+}

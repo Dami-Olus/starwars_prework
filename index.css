@@ -75,5 +75,13 @@ body {
   padding: 50px;
   display: none;
 }
+.starShipData {
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid black;
+  margin: 15px;
+  padding: 50px;
+  /* display: none; */
+}
 
 

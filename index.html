@@ -26,24 +26,25 @@
 <div class="pageIntro2">
   <p>This page was created to showcase some of the cool stuffs and artefacts from the star wars franchise</p>
 </div>
-<div class="informationTab">
+<div class="informationNav">
   
-    <a>People</a>
-    <a>Starships</a>
-    <a>Species</a>
+    <button onClick="openInfo('peopleInfo')">People</button>
+    <button onClick="openInfo('starShipInfo')">Starships</button>
+    <button onClick="openInfo('Species')">Species</button>
   
 </div>
+
 <!-- People -->
 <div class="informationContainer">
-  <a class="prev" onclick="plusSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
-<div class="informationImage">
-  <img id="image" />
-</div>
+  
 
-<div id="peopleInfo">
+<div class="info" id="peopleInfo">
 
 </div>
-<a class="next" onclick="plusSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+<div id="starShipInfo" class="info" style="display: none;">
+
+</div>
+
 </div>
 
 <footer></footer>
@@ -58,7 +59,7 @@
 
  const image = document.getElementById("image")
 const skywalker = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYt-9t--OYWOXihwPsatQt3IembOs8wxf50w&usqp=CAU";
-image.src=skywalker
+
 
 
 async function fetchData()  {
@@ -73,45 +74,87 @@ async function fetchData()  {
   }
 }
 
+fetchData()
+
+async function fetchStarShips()  {
+  let url = "https://swapi.dev/api/starships"
+  try{
+  let response = await fetch(url);
+  let data = await response.json()
+  // console.log(data)
+  return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+fetchStarShips()
+
 async function getDatabase() {
   let database = await fetchData()
   let html =''
   database.results.forEach( data => {
     
-      let htmlSegment = `<div class="peopleData">
-      <div class="peopleDataInfo">
-  <p>Name: <span id="name">${data.name}</span></p>
-  <p>Home World: <span id="homeWorld">${data.homeworld}</span></p>
-  <p>Star ships: <span id="starShips"></span></p>
-  <p>Vehicles: <span id="vehicles"></span></p>
-  </div>
-</div>`;
-
-html += htmlSegment;
-    
-  });
+      let htmlSegment = `<div id="peopleData" class="peopleData">
+                        <a class="prev" onclick="plusSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
+                          <div class="informationImage">
+                            <img id="image" src=${skywalker} />
+                          </div>
+                          <p>Name: <span id="name">${data.name}</span></p>
+                          <p>Home World: <span id="homeWorld">${data.homeworld}</span></p>
+                          <p>Star ships: <span id="starShips"></span></p>
+                          <p>Vehicles: <span id="vehicles"></span></p>
+                          <a class="next" onclick="plusSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+                        </div>`;
+      html += htmlSegment;
+      });
   let container = document.getElementById("peopleInfo");
   container.innerHTML = html;
-
 }
-
 getDatabase();
 
+async function getStarShipDatabase() {
+  let database = await fetchStarShips()
+  let html =''
+  database.results.forEach( data => {
+      let htmlSegment = `<div id="starShipData" class="starShipData">
+                          <a class="prev" onclick="plusShipSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
+                          <div class="informationImage">
+                            <img id="image" src=${skywalker} />
+                          </div>
+                        <p>Name: <span id="name">${data.name}</span></p>
+                        <p>Class: <span id="homeWorld">${data.class}</span></p>
+                        <p>length: <span id="starShips">${data.length}</span></p>
+                        <p>Manufacturer: <span id="vehicles">${data.manufacturer}</span></p>
+                        <a class="next" onclick="plusShipSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+                      </div>`;
+        html += htmlSegment;
+        });
+  let container = document.getElementById("starShipInfo");
+  container.innerHTML = html;
+}
+getStarShipDatabase()
+
 let slideIndex = 1;
-showSlides(slideIndex);
+showSlides(slideIndex)
+
 
 function plusSlides(n) {
   showSlides(slideIndex += n);
+}
+
+function plusShipSlides(n) {
+  showShipSlides(slideIndex += n);
 }
 
 function currentSlide(n) {
   showSlides(slideIndex = n)
 }
 
-function showSlides(n) {
+async function showSlides(n) {
+  await getDatabase();
   let i;
   let slides = document.getElementsByClassName('peopleData')
-  console.log(slides.length)
+  // console.log(slides.length)
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -120,70 +163,94 @@ function showSlides(n) {
   slides[slideIndex-1].style.display = "block";
 }
 
-
-
-async function renderName() {
-let data = await fetchData();
-let html = data.results[0].name
-let container = document.getElementById('name');
-container.innerHTML = html
-}
-
-async function renderHomeworld() {
-  let data = await fetchData();
-let html = data.results[0].homeworld
-let homeworld = ''
-let url = html
-  try{
-  let response = await fetch(url);
-  let data = await response.json()
-  console.log(data.name)
-  homeworld += data.name;
-  } catch (error) {
-    console.log(error);
+async function showShipSlides(n) {
+  await getStarShipDatabase();
+  let i;
+  let slides = document.getElementsByClassName('starShipData')
+  // console.log(slides.length)
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
   }
-let container = document.getElementById('homeWorld');
-container.innerHTML = homeworld
+  slides[slideIndex-1].style.display = "block";
 }
 
-async function renderStarships() {
-let data = await fetchData();
-let html = data.results[0].starships[0]
-let starship = ''
-let url = html
-  try{
-  let response = await fetch(url);
-  let data = await response.json()
-  console.log(data.name)
-  starship += data.name;
-  } catch (error) {
-    console.log(error);
+async function openInfo(info) {
+  await getStarShipDatabase();
+  await showShipSlides(slideIndex)
+  let i;
+  let x = document.getElementsByClassName("info");
+  let y = document.getElementById(info)
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = 'none'
   }
-let container = document.getElementById('starShips');
-container.innerHTML = starship
+    y.style.display = 'block';  
 }
 
-async function renderVehicles() {
-  let data = await fetchData();
-let html = data.results[0].vehicles[0]
-let vehicle = ''
-let url = html
-  try{
-  let response = await fetch(url);
-  let data = await response.json()
-  console.log(data.name)
-  vehicle += data.name;
-  } catch (error) {
-    console.log(error);
-  }
-let container = document.getElementById('vehicles');
-container.innerHTML = vehicle
-}
 
-renderName()
-renderHomeworld()
-renderStarships()
-renderVehicles()
+// async function renderName() {
+// let data = await fetchData();
+// let html = data.results[0].name
+// let container = document.getElementById('name');
+// container.innerHTML = html
+// }
+
+// async function renderHomeworld() {
+//   let data = await fetchData();
+// let html = data.results[0].homeworld
+// let homeworld = ''
+// let url = html
+//   try{
+//   let response = await fetch(url);
+//   let data = await response.json()
+//   console.log(data.name)
+//   homeworld += data.name;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// let container = document.getElementById('homeWorld');
+// container.innerHTML = homeworld
+// }
+
+// async function renderStarships() {
+// let data = await fetchData();
+// let html = data.results[0].starships[0]
+// let starship = ''
+// let url = html
+//   try{
+//   let response = await fetch(url);
+//   let data = await response.json()
+//   console.log(data.name)
+//   starship += data.name;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// let container = document.getElementById('starShips');
+// container.innerHTML = starship
+// }
+
+// async function renderVehicles() {
+//   let data = await fetchData();
+// let html = data.results[0].vehicles[0]
+// let vehicle = ''
+// let url = html
+//   try{
+//   let response = await fetch(url);
+//   let data = await response.json()
+//   console.log(data.name)
+//   vehicle += data.name;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// let container = document.getElementById('vehicles');
+// container.innerHTML = vehicle
+// }
+
+// renderName()
+// renderHomeworld()
+// renderStarships()
+// renderVehicles()
 
 // axios.get("https://swapi.dev/api").then(response => {
 //   console.log(response.data);

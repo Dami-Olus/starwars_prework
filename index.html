@@ -27,9 +27,9 @@
 </div>
 
 <div class="informationNav">
-    <button onClick="openInfo('peopleInfo')">People</button>
-    <button onClick="openInfo('starShipInfo')">Starships</button>
-    <button onClick="openInfo('filmInfo')">Films</button>
+    <button class="button" onClick="openInfo('peopleInfo')">People</button>
+    <button class="button" onClick="openInfo('starShipInfo')">Starships</button>
+    <button class="button" onClick="openInfo('filmInfo')">Films</button>
 </div>
 
 <div class="informationContainer">
@@ -49,7 +49,8 @@
 <script>
 
  const image = document.getElementById("image")
-const skywalker = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYt-9t--OYWOXihwPsatQt3IembOs8wxf50w&usqp=CAU";
+
+
 
 async function fetchData()  {
   let url = "https://swapi.dev/api/people"
@@ -163,7 +164,7 @@ async function getDatabase() {
                         <a class="prev" onclick="plusSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
                         </div>
                           <div class="informationImage">
-                            <img id="image" src=${skywalker} />
+                            <img id="image" src='' />
                           </div>
                           <div class="infoData">
                           <p>Name: <span id="name">${data.name}</span></p>
@@ -192,7 +193,7 @@ async function getStarShipDatabase() {
                           <a class="prev" onclick="plusShipSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
                           </div>
                           <div class="informationImage">
-                            <img id="image" src=${skywalker} />
+                            <img id="image" src='' />
                           </div>
                           <div class="infoData">
                         <p>Name: <span id="name">${data.name}</span></p>
@@ -220,7 +221,7 @@ async function getFilmsDatabase() {
                           <a class="prev" onclick="plusFilmSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
                           </div>
                           <div class="informationImage">
-                            <img id="image" src=${skywalker} />
+                            <img id="image" src='' />
                           </div>
                           <div class="infoData">
                         <p>Title: <span id="name">${data.title}</span></p>

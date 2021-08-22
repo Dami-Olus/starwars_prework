@@ -1,5 +1,8 @@
 body {
-  background-image: url('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bmlnaHQlMjBza3l8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
+  background-image: url("https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bmlnaHQlMjBza3l8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80");
+  font-family:  'Calibri','Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
 }
 
 .topNav {
@@ -22,10 +25,10 @@ img {
 }
 
 .imgContainer {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 400px;
   margin-top: 10px;
-  margin-bottom: 10px;
+  
 }
 
 .pageTitle {
@@ -42,6 +45,9 @@ img {
   color: white;
 }
 
+.button {
+  cursor: pointer;
+}
 
 .informationTab {
   display: flex;
@@ -66,12 +72,18 @@ img {
 .prev,
 .next {
   cursor: pointer;
+  color: #ffe81f;
 }
 
-.prev:hover,
-.next:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+.prev {
+  margin-right: 40px;
+  
 }
+
+.next {
+  margin-left: 40px;
+}
+
 
 .informationImage {
   margin-right: 60px;
@@ -82,34 +94,34 @@ img {
   justify-content: center;
 }
 
-.peopleData {
+.peopleData .starShipData .filmData {
   width: fit-content;
   height: fit-content;
-  border: 2px solid black;
+  border: 2px solid white;
+  margin: 15px;
+  /* padding: 50px; */
+  display: none;
+}
+ /* .starShipData {
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid white;
   margin: 15px;
   padding: 50px;
   display: none;
-}
-.starShipData {
-  width: fit-content;
-  height: fit-content;
-  border: 2px solid black;
-  margin: 15px;
-  padding: 50px;
-  /* display: none; */
-}
+ }
 
 .filmData {
   width: fit-content;
   height: fit-content;
-  border: 2px solid black;
+  border: 2px solid white;
   margin: 15px;
   padding: 50px;
-  /* display: none; */
-}
+  display: none; 
+}  */
 
 .nav {
-  margin-left: 10px;
-  margin-right: 10px;
+  
   align-self: center;
+  
 }

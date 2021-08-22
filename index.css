@@ -1,4 +1,5 @@
 body {
+  background-image: url('https://images.unsplash.com/photo-1475274047050-1d0c0975c63e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8bmlnaHQlMjBza3l8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80');
 }
 
 .topNav {
@@ -15,6 +16,18 @@ body {
   justify-content: center;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.imgContainer {
+  height: 200px;
+  width: 200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 .pageTitle {
   color: blue;
 }
@@ -26,12 +39,9 @@ body {
 .pageIntro {
   height: 100%;
   width: 50vw;
-  
+  color: white;
 }
 
-.pageIntro2 {
-  color: red;
-}
 
 .informationTab {
   display: flex;
@@ -48,23 +58,28 @@ body {
 
 .informationContainer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  color: white;
+  border: 1px solid white;
 }
 
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
 }
 
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .informationImage {
+  margin-right: 60px;
 }
 
 #peopleInfo {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .peopleData {
@@ -84,4 +99,17 @@ body {
   /* display: none; */
 }
 
+.filmData {
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid black;
+  margin: 15px;
+  padding: 50px;
+  /* display: none; */
+}
 
+.nav {
+  margin-left: 10px;
+  margin-right: 10px;
+  align-self: center;
+}

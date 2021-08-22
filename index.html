@@ -8,43 +8,34 @@
   <script src="https://kit.fontawesome.com/9202b09779.js" crossorigin="anonymous"></script>
 </head>
 <body>
+
   <div class="topNav">
-    
       <a>Home</a>
       <a>About</a>
-    
   </div>
+
   <div class="pageTitleContainer">
-  <h1 class="pageTitle">Star Wars Fan Page</h1>
+    <div class="imgContainer">
+    <img src="https://lumiere-a.akamaihd.net/v1/images/og-generic_02031d2b.png?region=0%2C0%2C1200%2C1200">
+  </div>
 </div>
+
 <div class="pageIntroContainer">
   <div class="pageIntro">
     <p>Star Wars is an American epic space opera[1] multimedia franchise created by George Lucas, which began with the eponymous 1977 film[b] and quickly became a worldwide pop-culture phenomenon. The franchise has been expanded into various films and other media, including television series, video games, novels, comic books, theme park attractions, and themed areas, comprising an all-encompassing fictional universe.[c] In 2020, its total value was estimated at US$70 billion, and it is currently the fifth-highest-grossing media franchise of all time.</p>
   </div>
 </div>
 
-<div class="pageIntro2">
-  <p>This page was created to showcase some of the cool stuffs and artefacts from the star wars franchise</p>
-</div>
 <div class="informationNav">
-  
     <button onClick="openInfo('peopleInfo')">People</button>
     <button onClick="openInfo('starShipInfo')">Starships</button>
-    <button onClick="openInfo('Species')">Species</button>
-  
+    <button onClick="openInfo('filmInfo')">Films</button>
 </div>
 
-<!-- People -->
 <div class="informationContainer">
-  
-
-<div class="info" id="peopleInfo">
-
-</div>
-<div id="starShipInfo" class="info" style="display: none;">
-
-</div>
-
+<div class="info" id="peopleInfo"></div>
+<div id="starShipInfo" class="info" style="display: none;"></div>
+<div id="filmInfo" class="info" style="display: none;"></div>
 </div>
 
 <footer></footer>
@@ -60,34 +51,107 @@
  const image = document.getElementById("image")
 const skywalker = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYt-9t--OYWOXihwPsatQt3IembOs8wxf50w&usqp=CAU";
 
-
-
 async function fetchData()  {
   let url = "https://swapi.dev/api/people"
   try{
   let response = await fetch(url);
   let data = await response.json()
-  // console.log(data)
+  // // create new property to store planet names
+      for (let i=0; i<data.results.length; i++) {
+        data.results[i].newHomeWorld = ''
+      }
+      for (let i=0; i<data.results.length; i++) {
+      data.results[i].newStarShips = ''
+      }
+      for (let i=0; i<data.results.length; i++) {
+      data.results[i].newVehicles = ''
+      }
+      for (let i=0; i<data.results.length; i++) {
+      data.results[i].newFilms = ''
+      }
+  //     //check length of planets and loop thru, then fetch each planet name and add it to the newPlanet property
+
+  //     //I need to await this function
+
+      await Promise.all(data.results.map(async result => {
+      
+      await fetch(result.homeworld).then(result => result.json()).then(data => result.newHomeWorld = data)
+      
+      for (let i=0; i<result.starships.length; i++) {
+      await fetch(result.starships[i]).then(result => result.json()).then(data => result.newStarShips += data.name + ', ')
+      }
+
+      for (let i=0; i<result.films.length; i++) {
+      await fetch(result.films[i]).then(result => result.json()).then(data => result.newFilms += data.title + ', ')
+      }
+      
+      
+      for (let i=0; i<result.vehicles.length; i++) {
+      await fetch(result.vehicles[i]).then(result => result.json()).then(data => result.newVehicles += data.name + ', ')
+      }
+      })  ) 
+  // console.log(data.results[0])
   return data;
   } catch (error) {
     console.log(error);
   }
 }
 
-fetchData()
 
-async function fetchStarShips()  {
-  let url = "https://swapi.dev/api/starships"
-  try{
-  let response = await fetch(url);
-  let data = await response.json()
-  // console.log(data)
-  return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-fetchStarShips()
+
+
+      async function fetchStarShips() {
+      let url = "https://swapi.dev/api/starships"
+      try{
+      let response = await fetch(url);
+      let data = await response.json()
+      // // create new property to store ship names
+  // for (let i=0; i<data.results.length; i++) {
+  //       data.results[i].newStarShip = ''
+  //     }
+  // //     //check length of planets and loop thru, then fetch each planet name and add it to the newPlanet property
+
+  // //     //I need to await this function
+
+  //     await Promise.all(data.results.map(async result => {
+      
+  //     await fetch(result.homeworld).then(result => result.json()).then(data => result.newHomeWorld = data)
+      
+  //     })  )
+      // console.log(data)
+      return data;
+      } catch (error) {
+        console.log(error);
+      }
+      }
+    
+
+      async function fetchFilms()  {
+      let url = "https://swapi.dev/api/films"
+      try{
+      let response = await fetch(url);
+      let data = await response.json()
+      // create new property to store planet names
+      for (let i=0; i<data.results.length; i++) {
+        data.results[i].newPlanet = []
+      }
+      //check length of planets and loop thru, then fetch each planet name and add it to the newPlanet property
+
+      //I need to await this function
+
+      await Promise.all(data.results.map(async result => {
+      for (let i=0; i<result.planets.length; i++) {
+      await fetch(result.planets[i]).then(result => result.json()).then(data => result.newPlanet.push(data))
+      }
+      })  )
+      
+      // console.log(data.results[0].newPlanet[0].name)
+      return data;
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
 
 async function getDatabase() {
   let database = await fetchData()
@@ -95,15 +159,22 @@ async function getDatabase() {
   database.results.forEach( data => {
     
       let htmlSegment = `<div id="peopleData" class="peopleData">
+                        <div class="nav">
                         <a class="prev" onclick="plusSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
+                        </div>
                           <div class="informationImage">
                             <img id="image" src=${skywalker} />
                           </div>
+                          <div class="infoData">
                           <p>Name: <span id="name">${data.name}</span></p>
-                          <p>Home World: <span id="homeWorld">${data.homeworld}</span></p>
-                          <p>Star ships: <span id="starShips"></span></p>
-                          <p>Vehicles: <span id="vehicles"></span></p>
-                          <a class="next" onclick="plusSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+                          <p>Films: <span id="name">${data.newFilms}</span></p>
+                          <p>Home World: <span id="homeWorld">${(data.newHomeWorld.name)}</span></p>
+                          <p>Star ships: <span id="starShips">${(data.newStarShips)}</span></p>
+                          <p>Vehicles: <span id="vehicles">${data.newVehicles}</span></p>
+                        </div>
+                        <div class="nav">
+                        <a class="next" onclick="plusSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+                        </div>
                         </div>`;
       html += htmlSegment;
       });
@@ -117,15 +188,21 @@ async function getStarShipDatabase() {
   let html =''
   database.results.forEach( data => {
       let htmlSegment = `<div id="starShipData" class="starShipData">
+                          <div class="nav">
                           <a class="prev" onclick="plusShipSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
+                          </div>
                           <div class="informationImage">
                             <img id="image" src=${skywalker} />
                           </div>
+                          <div class="infoData">
                         <p>Name: <span id="name">${data.name}</span></p>
                         <p>Class: <span id="homeWorld">${data.class}</span></p>
                         <p>length: <span id="starShips">${data.length}</span></p>
                         <p>Manufacturer: <span id="vehicles">${data.manufacturer}</span></p>
+                        </div>
+                        <div class="nav">
                         <a class="next" onclick="plusShipSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+                        </div>
                       </div>`;
         html += htmlSegment;
         });
@@ -134,9 +211,37 @@ async function getStarShipDatabase() {
 }
 getStarShipDatabase()
 
+async function getFilmsDatabase() {
+  let database = await fetchFilms()
+  let html =''
+  database.results.forEach( data => {
+      let htmlSegment = `<div id="filmData" class="filmData">
+                          <div class="nav">
+                          <a class="prev" onclick="plusFilmSlides(-1)"><i class="fas fa-arrow-left" ></i></a>
+                          </div>
+                          <div class="informationImage">
+                            <img id="image" src=${skywalker} />
+                          </div>
+                          <div class="infoData">
+                        <p>Title: <span id="name">${data.title}</span></p>
+                        <p>Director: <span id="homeWorld">${data.director}</span></p>
+                        <p>Producer: <span id="starShips">${data.producer}</span></p>
+                        <p>Release Date: <span id="vehicles">${data.release_date}</span></p>
+                        </div>
+                        <div class="nav">
+                        <a class="next" onclick="plusFilmSlides(1)"><i class="fas fa-arrow-right" ></i></a>
+                        </div>
+                      </div>`;
+        html += htmlSegment;
+        });
+  let container = document.getElementById("filmInfo");
+  container.innerHTML = html;
+}
+getFilmsDatabase()
+
+
 let slideIndex = 1;
 showSlides(slideIndex)
-
 
 function plusSlides(n) {
   showSlides(slideIndex += n);
@@ -144,6 +249,10 @@ function plusSlides(n) {
 
 function plusShipSlides(n) {
   showShipSlides(slideIndex += n);
+}
+
+function plusFilmSlides(n) {
+  showFilmSlides(slideIndex += n);
 }
 
 function currentSlide(n) {
@@ -160,7 +269,7 @@ async function showSlides(n) {
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
   }
-  slides[slideIndex-1].style.display = "block";
+  slides[slideIndex-1].style.display = "flex";
 }
 
 async function showShipSlides(n) {
@@ -173,12 +282,26 @@ async function showShipSlides(n) {
   for (i = 0; i < slides.length; i++) {
     slides[i].style.display = "none";
   }
-  slides[slideIndex-1].style.display = "block";
+  slides[slideIndex-1].style.display = "flex";
+}
+
+async function showFilmSlides(n) {
+  await getFilmsDatabase();
+  let i;
+  let slides = document.getElementsByClassName('filmData')
+  // console.log(slides.length)
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex-1].style.display = "flex";
 }
 
 async function openInfo(info) {
   await getStarShipDatabase();
   await showShipSlides(slideIndex)
+  await showFilmSlides(slideIndex)
   let i;
   let x = document.getElementsByClassName("info");
   let y = document.getElementById(info)
@@ -187,86 +310,4 @@ async function openInfo(info) {
   }
     y.style.display = 'block';  
 }
-
-
-// async function renderName() {
-// let data = await fetchData();
-// let html = data.results[0].name
-// let container = document.getElementById('name');
-// container.innerHTML = html
-// }
-
-// async function renderHomeworld() {
-//   let data = await fetchData();
-// let html = data.results[0].homeworld
-// let homeworld = ''
-// let url = html
-//   try{
-//   let response = await fetch(url);
-//   let data = await response.json()
-//   console.log(data.name)
-//   homeworld += data.name;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// let container = document.getElementById('homeWorld');
-// container.innerHTML = homeworld
-// }
-
-// async function renderStarships() {
-// let data = await fetchData();
-// let html = data.results[0].starships[0]
-// let starship = ''
-// let url = html
-//   try{
-//   let response = await fetch(url);
-//   let data = await response.json()
-//   console.log(data.name)
-//   starship += data.name;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// let container = document.getElementById('starShips');
-// container.innerHTML = starship
-// }
-
-// async function renderVehicles() {
-//   let data = await fetchData();
-// let html = data.results[0].vehicles[0]
-// let vehicle = ''
-// let url = html
-//   try{
-//   let response = await fetch(url);
-//   let data = await response.json()
-//   console.log(data.name)
-//   vehicle += data.name;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// let container = document.getElementById('vehicles');
-// container.innerHTML = vehicle
-// }
-
-// renderName()
-// renderHomeworld()
-// renderStarships()
-// renderVehicles()
-
-// axios.get("https://swapi.dev/api").then(response => {
-//   console.log(response.data);
-// })
-// .catch(error => console.error(error));
-
-
-
-
-
-//  planets
-//  people
-//  film
-//  species
-//  starships
-//  vehicles
-
-
 </script>

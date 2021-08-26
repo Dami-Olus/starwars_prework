@@ -37,7 +37,7 @@ img {
 .pageIntroContainer {
   display: flex;
   justify-content: space-around;
-  border: 2px solid black;
+  
 }
 .pageIntro {
   height: 100%;
@@ -101,6 +101,11 @@ img {
   margin: 15px;
   /* padding: 50px; */
   display: none;
+}
+
+.infoData {
+  width: 400px;
+  height: 300px;
 }
  /* .starShipData {
   width: fit-content;
